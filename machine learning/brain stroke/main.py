@@ -64,3 +64,23 @@ print("F1 Score:", f1_score(y_test, y_pred))
 
 # Save the best model
 joblib.dump(best_rf, 'best_stroke_model.pkl')
+
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Get feature importances from the trained model
+feature_importances = best_rf.feature_importances_
+
+# Create a DataFrame for easy plotting
+features = X.columns  # Feature names from your data
+importance_df = pd.DataFrame({'Feature': features, 'Importance': feature_importances})
+importance_df = importance_df.sort_values(by='Importance', ascending=False)
+
+# Plot the feature importances
+plt.figure(figsize=(10, 6))
+plt.barh(importance_df['Feature'], importance_df['Importance'], color='teal')
+plt.xlabel('Feature Importance Score')
+plt.title('Feature Importance in Predicting Stroke')
+plt.gca().invert_yaxis()  # Invert y-axis for descending order
+plt.show()
